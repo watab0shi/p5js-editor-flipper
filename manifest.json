@@ -8,7 +8,7 @@
     }
   },
   "manifest_version": 3,
-  "version": "0.1",
+  "version": "0.2",
   "description": "Flip panes of p5.js editor",
   "content_scripts": [
     {
