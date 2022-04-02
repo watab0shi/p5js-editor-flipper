@@ -1,4 +1,16 @@
-function flipPane(setting) {
+const flip = (state) => {
+  let style = document.querySelector('[data-p5js-editor-flipper="styles"]');
+  if (!style) {
+    style = document.createElement('style');
+    style.setAttribute('data-p5js-editor-flipper', 'styles');
+    document.querySelector('head').insertAdjacentElement('beforeend', style);
+  }
+  style.textContent = `.editor-preview-container .SplitPane.vertical .SplitPane.vertical {
+    flex-direction: ${ (state === 1) ? 'row-reverse' : 'row' } !important;
+  }`;
+};
+
+function init(setting) {
   const state = localStorage.getItem('flip-state');
   let flipState = state ? Number(state) : 0;
   const button = document.createElement('button');
@@ -8,11 +20,6 @@ function flipPane(setting) {
   div.style.marginLeft = 'auto';
   setting.insertAdjacentElement('beforebegin', div);
   setting.style.marginLeft = '16px';
-  const flip = (state) => {
-    const e = document.querySelector('.editor-preview-container>.SplitPane>.Pane>.SplitPane');
-    e.style.flexDirection = (state === 1) ? 'row-reverse' : 'row';
-    localStorage.setItem('flip-state', flipState.toString());
-  };
   flip(flipState);
   button.addEventListener('click', () => {
     flipState = (flipState === 0) ? 1 : 0;
@@ -24,7 +31,7 @@ window.addEventListener('load', () => {
   const loop = () => {
     let setting = document.querySelector('.toolbar__preferences-button')
     if (setting) {
-      flipPane(setting);
+      init(setting);
     } else {
       setTimeout(loop, 1000)
     }
